@@ -22,7 +22,7 @@ Usage:
 
     # For agent-framework clients
     client = AzureOpenAIChatClient(
-        ad_token_provider=get_token_provider(),
+        credential=get_token_provider(),
         endpoint=endpoint,
         deployment_name=deployment,
         api_version=api_version

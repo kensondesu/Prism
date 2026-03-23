@@ -95,7 +95,7 @@ class WorkflowAgentFactory:
 
         # Initialize chat client with DefaultAzureCredential (Managed Identity)
         self.chat_client = AzureOpenAIChatClient(
-            ad_token_provider=get_token_provider(),
+            credential=get_token_provider(),
             endpoint=AZURE_OPENAI_ENDPOINT,
             deployment_name=AZURE_OPENAI_CHAT_DEPLOYMENT,
             api_version=AZURE_OPENAI_API_VERSION
@@ -386,11 +386,9 @@ Results saved to blob storage: {self.project_name}/output/results.json
         # Build workflow
         builder = WorkflowBuilder(
             name=f"{section_name}",
-            description=f"Answers {len(questions)} questions for {section_name}"
+            description=f"Answers {len(questions)} questions for {section_name}",
+            start_executor=agents[0]
         )
-
-        # Set first agent as start
-        builder.set_start_executor(agents[0])
 
         # Chain: Q1 -> Saver1 -> Q2 -> Saver2 -> ... -> Completion
         for i in range(len(agents)):
