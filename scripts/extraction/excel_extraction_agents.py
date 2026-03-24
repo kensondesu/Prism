@@ -27,7 +27,7 @@ except ImportError:
     logger.warning("openpyxl not installed. Run: pip install openpyxl")
     openpyxl = None
 
-from agent_framework import ChatMessage, Role
+from agent_framework import Message, Role
 from agent_framework.azure import AzureOpenAIChatClient
 
 # Load environment
@@ -244,7 +244,7 @@ def _get_client():
     global _client
     if _client is None:
         _client = AzureOpenAIChatClient(
-            ad_token_provider=get_token_provider(),
+            credential=get_token_provider(),
             endpoint=AZURE_OPENAI_ENDPOINT,
             deployment_name=AZURE_OPENAI_CHAT_DEPLOYMENT,
             api_version=AZURE_OPENAI_API_VERSION
@@ -306,7 +306,7 @@ async def enhance_excel_with_agent(
 
 Restructure this into well-organized, searchable markdown. Preserve ALL item numbers, quantities, specs, and searchable terms. Return JSON with enhanced_markdown field."""
 
-    message = ChatMessage(
+    message = Message(
         role=Role.USER,
         text=analysis_request
     )

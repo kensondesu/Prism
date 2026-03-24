@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 # Import existing email extraction function
 from .extract_msg_files import format_email_as_markdown
 
-from agent_framework import ChatMessage, Role
+from agent_framework import Message, Role
 from agent_framework.azure import AzureOpenAIChatClient
 
 # Load environment
@@ -130,7 +130,7 @@ def _get_client():
     global _client
     if _client is None:
         _client = AzureOpenAIChatClient(
-            ad_token_provider=get_token_provider(),
+            credential=get_token_provider(),
             endpoint=AZURE_OPENAI_ENDPOINT,
             deployment_name=AZURE_OPENAI_CHAT_DEPLOYMENT,
             api_version=AZURE_OPENAI_API_VERSION
@@ -185,7 +185,7 @@ async def enhance_email_with_agent(
 
 Provide comprehensive semantic analysis and enhanced markdown following the instructions."""
 
-    message = ChatMessage(
+    message = Message(
         role=Role.USER,
         text=analysis_request
     )

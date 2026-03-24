@@ -27,9 +27,10 @@ logger = get_logger(__name__)
 load_dotenv()
 
 # Azure OpenAI config for evaluators
+# Uses a dedicated eval deployment (defaults to gpt-4.1) separate from the chat/workflow deployment
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2025-01-01-preview")
-AZURE_OPENAI_CHAT_DEPLOYMENT = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME", "gpt-4.1")
+AZURE_OPENAI_CHAT_DEPLOYMENT = os.getenv("AZURE_OPENAI_EVAL_DEPLOYMENT_NAME") or os.getenv("AZURE_OPENAI_MODEL_NAME", "gpt-4.1")
 
 
 def get_model_config() -> Dict[str, Any]:
