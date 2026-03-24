@@ -119,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAppStore } from '../stores/app'
 import { storeToRefs } from 'pinia'
@@ -146,7 +146,16 @@ const taskProgress = computed(() => {
 })
 
 onMounted(async () => {
-  await loadSections()
+  if (storeSelectedProject.value) {
+    await loadSections()
+  }
+})
+
+// Reload when project changes
+watch(storeSelectedProject, async (newProject) => {
+  if (newProject) {
+    await loadSections()
+  }
 })
 
 onUnmounted(() => {
